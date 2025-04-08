@@ -16,6 +16,7 @@ from prismatic.training.strategies import FSDPStrategy, TrainingStrategy
 TRAIN_STRATEGIES = {
     "fsdp-shard-grad-op": {"cls": FSDPStrategy, "kwargs": {"sharding_strategy": "shard-grad-op"}},
     "fsdp-full-shard": {"cls": FSDPStrategy, "kwargs": {"sharding_strategy": "full-shard"}},
+    "ddp": {}
 }
 
 

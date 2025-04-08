@@ -8,7 +8,6 @@ Notes:
       of the {Model}ForCausalLM API that enables dispatch to the underlying LLM's `generate` utilities (feeding inputs
       through our custom projection shim).
 """
-
 from __future__ import annotations
 
 from functools import partial
@@ -147,7 +146,7 @@ class PrismaticVLM(VLM):
 
         elif stage == "finetune":
             self.vision_backbone.requires_grad_(False)
-            self.llm_backbone.requires_grad_(True)
+            # self.llm_backbone.requires_grad_(True)
             self.projector.requires_grad_(True)
 
             # Add to `self.trainable_module_keys`

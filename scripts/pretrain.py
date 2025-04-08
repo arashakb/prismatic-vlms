@@ -72,7 +72,7 @@ class PretrainConfig:
     seed: int = 7                                                   # Random seed (for reproducibility)
 
     # HF Hub Credentials (for any gated models)
-    hf_token: Union[str, Path] = Path(".hf_token")                  # Environment variable or Path to HF Token
+    hf_token: Union[str, Path] = Path("hf_token.txt")                  # Environment variable or Path to HF Token
 
     # Tracking Parameters
     trackers: Tuple[str, ...] = ("jsonl", "wandb")                  # Trackers to initialize (if W&B, add config!)
@@ -156,7 +156,8 @@ def pretrain(cfg: PretrainConfig) -> None:
     llm_backbone, tokenizer = get_llm_backbone_and_tokenizer(
         cfg.model.llm_backbone_id, llm_max_length=cfg.model.llm_max_length, hf_token=hf_token
     )
-
+    print("Let's check the model architecture")
+    print(llm_backbone)
     # Create VLM => wraps `vision_backbone` and `llm`
     overwatch.info(f"Instantiating PrismaticVLM `{model_id}` for Training Stage = `{cfg.stage}`")
     vlm = get_vlm(
@@ -170,6 +171,17 @@ def pretrain(cfg: PretrainConfig) -> None:
     # [Explicit] Call to `freeze_backbones` here for clarity => will log exactly what is frozen / what's not!
     overwatch.info(f"Invoking `VLM.freeze_backbones()` for `{model_id}` => Training Stage: `{cfg.stage}`")
     vlm.freeze_backbones(cfg.stage)
+
+    #Print the Number of Trainalbe Parameters of the Model
+     # Print parameter counts
+    total_params = sum(p.numel() for p in vlm.parameters())
+    trainable_params = sum(p.numel() for p in vlm.parameters() if p.requires_grad)
+    overwatch.info(
+        f"Parameter Counts:\n"
+        f"         |-> Total Parameters: {total_params:,}\n"
+        f"         |-> Trainable Parameters: {trainable_params:,}\n"
+        f"         |-> Frozen Parameters: {total_params - trainable_params:,}"
+    )
 
     # Load Weights from Checkpoint (depends on stage, config)
     overwatch.info(f"Invoking `VLM.load_checkpoint()` for `{model_id}` => Training Stage: `{cfg.stage}`")

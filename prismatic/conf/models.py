@@ -67,7 +67,10 @@ class ModelConfig(ChoiceRegistry):
     enable_gradient_checkpointing: bool = True
 
     # Enable Traditional Mixed Precision Training via Torch Native AMP (`autocast`)
+
+    # I changed the following line from True to False to use fp16 instead of bfloat16
     enable_mixed_precision_training: bool = True            # Whether to enable mixed precision training
+    # Did not change this line
     reduce_in_full_precision: bool = False                  # Whether to run gradient reduction in FP32
 
     # fmt: on
@@ -88,8 +91,8 @@ class LLaVa_v15_Reproduction_7B(ModelConfig):
     # Align Stage Optimization Parameters
     align_epochs: int = 1
     align_max_steps: Optional[int] = None
-    align_global_batch_size: int = 256
-    align_per_device_batch_size: int = 16
+    align_global_batch_size: int = 4
+    align_per_device_batch_size: int = 4
 
     align_learning_rate: float = 1e-3
     align_weight_decay: float = 0.0
@@ -102,8 +105,8 @@ class LLaVa_v15_Reproduction_7B(ModelConfig):
     # Finetune Stage Optimization Parameters
     finetune_epochs: int = 1
     finetune_max_steps: Optional[int] = None
-    finetune_global_batch_size: int = 128
-    finetune_per_device_batch_size: int = 16
+    finetune_global_batch_size: int = 4
+    finetune_per_device_batch_size: int = 4
 
     finetune_learning_rate: float = 2e-5
     finetune_weight_decay: float = 0.1
@@ -488,6 +491,27 @@ class Prism_7B_DINOSigLIP_224px(Exp_7B_One_Stage):
     arch_specifier: str = "no-align+fused-gelu-mlp"
     finetune_epochs: int = 2
 
+#   =>> Note :: Run with `--dataset.type "llava-lvis4v-lrv"`
+@dataclass
+class Prism_Qwen25_0_5B_DINOSigLIP_224px(Exp_7B_One_Stage):
+    model_id: str = "prism-qwen25-dinosiglip-224px+0_5b"
+    vision_backbone_id: str = "dinosiglip-vit-so-224px"
+    image_resize_strategy: str = "resize-naive"
+    llm_backbone_id: str = "qwen25-0_5b-pure"
+    arch_specifier: str = "no-align+fused-gelu-mlp"
+    finetune_epochs: int = 2
+
+    llm_max_length: int = 32768
+
+@dataclass
+class Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_0_5B_DINOSigLIP_224px):
+    model_id: str = "prism-qwen25-extra-dinosiglip-224px+0_5b"
+    llm_backbone_id: str = "qwen25-0_5b-extra"
+    align_global_batch_size: int = 4
+    align_per_device_batch_size: int = 2
+    finetune_global_batch_size: int = 4
+    finetune_per_device_batch_size: int = 2
+
 
 # === Define a Model Registry Enum for Reference & Validation ===
 @unique
@@ -565,6 +589,10 @@ class ModelRegistry(Enum):
     # === Inference Optimized :: 224px Prism Models ===
     PRISM_DINOSIGLIP_224PX_CONTROLLED_7B = Prism_7B_DINOSigLIP_224px_Controlled
     PRISM_DINOSIGLIP_224PX_7B = Prism_7B_DINOSigLIP_224px
+    
+    # Qwen
+    PRISM_QWEN25_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_DINOSigLIP_224px
+    PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px
 
     @property
     def model_id(self) -> str:

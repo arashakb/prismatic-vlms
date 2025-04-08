@@ -47,6 +47,7 @@ class TrainingStrategy(ABC):
         enable_gradient_checkpointing: bool = True,
         enable_mixed_precision_training: bool = True,
         reduce_in_full_precision: bool = False,
+        #Changed this from bfloat16 to fp16
         mixed_precision_dtype: torch.dtype = torch.bfloat16,
         worker_init_fn: Optional[Callable[[int], None]] = None,
         **_: str,

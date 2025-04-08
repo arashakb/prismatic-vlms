@@ -26,6 +26,9 @@ from transformers.modeling_outputs import CausalLMOutputWithPast
 from prismatic.models.backbones.llm.prompting import PromptBuilder
 from prismatic.overwatch import initialize_overwatch
 
+from peft import get_peft_model
+
+
 # Suppress HF Deprecation Warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -105,6 +108,8 @@ class HFCausalLLMBackbone(LLMBackbone, ABC):
         hf_token: Optional[str] = None,
         inference_mode: bool = False,
         use_flash_attention_2: bool = False,
+        enable_peft: bool = False,
+        lora_config = None,
     ) -> None:
         super().__init__(llm_backbone_id)
         self.llm_family = llm_family
@@ -124,12 +129,17 @@ class HFCausalLLMBackbone(LLMBackbone, ABC):
                 temperature=1.0,
                 top_p=1.0,
             )
+            if enable_peft == True:
+                self.llm = get_peft_model(self.llm, lora_config)
 
         # [Contract] `inference_mode` means we're loading from a pretrained checkpoint; no need to load base weights!
         else:
             overwatch.info(f"Building empty [bold]{llm_family}[/] LLM from [underline]`{hf_hub_path}`[/]", ctx_level=1)
             llm_config = AutoConfig.from_pretrained(hf_hub_path, token=hf_token)
             self.llm = llm_cls._from_config(llm_config)
+
+            if enable_peft == True:
+                self.llm = get_peft_model(self.llm, lora_config)
 
         # Lightweight Handling (with extended explanation) for setting some LLM Parameters
         #   => Set `decoder.use_cache = False` --> incompatible with gradient checkpointing (+ training in general)
@@ -169,6 +179,11 @@ class HFCausalLLMBackbone(LLMBackbone, ABC):
             #       this works well with base LLM generation.
             #   =>> Like Llama-2 Tokenizers -- we'll add a special PAD token for training purposes.
             "phi-2-3b",
+            "qwen25-0_5b-pure",
+            "qwen25-0_5b-extra",
+            "qwen25-1_5b-pure",
+            "qwen25-3b-pure",
+            "qwen25-7b-pure",
         }
         if self.identifier in SPECIAL_CASES:
             return

@@ -1,0 +1,128 @@
+{
+  "os": "Linux-3.10.0-1160.25.1.el7.x86_64-x86_64-with-glibc2.17",
+  "python": "CPython 3.10.16",
+  "startedAt": "2025-04-03T14:18:46.906354Z",
+  "args": [
+    "--model.type",
+    "prism-qwen25-extra-dinosiglip-224px+0_5b",
+    "--wandb_project",
+    "testin_vlm_training",
+    "--wandb_entity",
+    "arash-akbari-stu-northeastern-university"
+  ],
+  "program": "/scratch/akbari.ara/prismatic-vlms/scripts/pretrain.py",
+  "codePath": "scripts/pretrain.py",
+  "git": {
+    "remote": "https://github.com/TRI-ML/prismatic-vlms.git",
+    "commit": "874c5bbff52b248294a3ab97006491a7faa698e6"
+  },
+  "email": "arash.akbari.stu@gmail.com",
+  "root": "runs/prism-qwen25-extra-dinosiglip-224px+0_5b+stage-finetune+x7",
+  "host": "d3094",
+  "executable": "/home/akbari.ara/.conda/envs/prism/bin/python",
+  "codePathLocal": "scripts/pretrain.py",
+  "cpu_count": 48,
+  "cpu_count_logical": 48,
+  "gpu": "Tesla V100-SXM2-32GB",
+  "gpu_count": 4,
+  "disk": {
+    "/": {
+      "total": "20961034240",
+      "used": "7678439424"
+    }
+  },
+  "memory": {
+    "total": "404098285568"
+  },
+  "cpu": {
+    "count": 48,
+    "countLogical": 48
+  },
+  "gpu_nvidia": [
+    {
+      "name": "Tesla V100-SXM2-32GB",
+      "memoryTotal": "34359738368",
+      "cudaCores": 5120,
+      "architecture": "Volta"
+    },
+    {
+      "name": "Tesla V100-SXM2-32GB",
+      "memoryTotal": "34359738368",
+      "cudaCores": 5120,
+      "architecture": "Volta"
+    },
+    {
+      "name": "Tesla V100-SXM2-32GB",
+      "memoryTotal": "34359738368",
+      "cudaCores": 5120,
+      "architecture": "Volta"
+    },
+    {
+      "name": "Tesla V100-SXM2-32GB",
+      "memoryTotal": "34359738368",
+      "cudaCores": 5120,
+      "architecture": "Volta"
+    }
+  ],
+  "slurm": {
+    "cluster_name": "discovery",
+    "conf": "/etc/slurm/slurm.conf",
+    "cpu_bind": "quiet,mask_cpu:0x000000000FFF",
+    "cpu_bind_list": "0x000000000FFF",
+    "cpu_bind_type": "mask_cpu:",
+    "cpu_bind_verbose": "quiet",
+    "cpus_on_node": "12",
+    "cpus_per_task": "12",
+    "distribution": "cyclic",
+    "gpus_on_node": "4",
+    "gtids": "0",
+    "job_account": "yanzhiwang",
+    "job_cpus_per_node": "12",
+    "job_end_time": "1743948002",
+    "job_gid": "100",
+    "job_group": "users",
+    "job_id": "47791197",
+    "job_name": "bash",
+    "job_nodelist": "d3094",
+    "job_num_nodes": "1",
+    "job_partition": "ce-mri",
+    "job_qos": "normal",
+    "job_start_time": "1743688802",
+    "job_uid": "93346",
+    "job_user": "akbari.ara",
+    "jobid": "47791197",
+    "launch_node_ipaddr": "10.99.0.120",
+    "localid": "0",
+    "mem_per_node": "65536",
+    "nnodes": "1",
+    "nodeid": "0",
+    "nodelist": "d3094",
+    "nprocs": "1",
+    "ntasks": "1",
+    "prio_process": "0",
+    "procid": "0",
+    "pty_port": "35447",
+    "pty_win_col": "249",
+    "pty_win_row": "49",
+    "script_context": "prolog_task",
+    "srun_comm_host": "10.99.0.120",
+    "srun_comm_port": "44370",
+    "step_gpus": "0,1,2,3",
+    "step_id": "0",
+    "step_launcher_port": "44370",
+    "step_nodelist": "d3094",
+    "step_num_nodes": "1",
+    "step_num_tasks": "1",
+    "step_tasks_per_node": "1",
+    "stepid": "0",
+    "submit_dir": "/scratch/akbari.ara/prismatic-vlms",
+    "submit_host": "login-00",
+    "task_pid": "176948",
+    "tasks_per_node": "1",
+    "topology_addr": "d3094",
+    "topology_addr_pattern": "node",
+    "tres_per_task": "cpu:12",
+    "umask": "0022"
+  },
+  "cudaVersion": "12.3"
+}
