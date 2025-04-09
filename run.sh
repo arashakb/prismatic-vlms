@@ -12,6 +12,12 @@ LOG_FILE="logs/training_${TIMESTAMP}.log"
 # export RANK=0
 # export LOCAL_RANK=0
 export NCCL_P2P_DISABLE=1
+export WANDB_API_KEY="e5cbd387d8e0c181e93c7e4ec56e965c5115e94c"
+export WANDB_CONFIG_DIR="/home/user1/.config/wandb_arash"
+export WANDB_CACHE_DIR="/home/user1/.cache/wandb_arash"
+
+
+
 
 # Run the training command and redirect all output to the log file
 echo "Starting training at $(date)" | tee -a "$LOG_FILE"
