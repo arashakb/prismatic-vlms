@@ -91,8 +91,8 @@ class LLaVa_v15_Reproduction_7B(ModelConfig):
     # Align Stage Optimization Parameters
     align_epochs: int = 1
     align_max_steps: Optional[int] = None
-    align_global_batch_size: int = 4
-    align_per_device_batch_size: int = 4
+    align_global_batch_size: int = 8
+    align_per_device_batch_size: int = 8
 
     align_learning_rate: float = 1e-3
     align_weight_decay: float = 0.0
@@ -105,8 +105,8 @@ class LLaVa_v15_Reproduction_7B(ModelConfig):
     # Finetune Stage Optimization Parameters
     finetune_epochs: int = 1
     finetune_max_steps: Optional[int] = None
-    finetune_global_batch_size: int = 4
-    finetune_per_device_batch_size: int = 4
+    finetune_global_batch_size: int = 8
+    finetune_per_device_batch_size: int = 8
 
     finetune_learning_rate: float = 2e-5
     finetune_weight_decay: float = 0.1
@@ -507,10 +507,10 @@ class Prism_Qwen25_0_5B_DINOSigLIP_224px(Exp_7B_One_Stage):
 class Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_0_5B_DINOSigLIP_224px):
     model_id: str = "prism-qwen25-extra-dinosiglip-224px+0_5b"
     llm_backbone_id: str = "qwen25-0_5b-extra"
-    align_global_batch_size: int = 4
-    align_per_device_batch_size: int = 2
-    finetune_global_batch_size: int = 4
-    finetune_per_device_batch_size: int = 2
+    align_global_batch_size: int = 16
+    align_per_device_batch_size: int = 8
+    finetune_global_batch_size: int = 16
+    finetune_per_device_batch_size: int = 8
 
 
 # === Define a Model Registry Enum for Reference & Validation ===
