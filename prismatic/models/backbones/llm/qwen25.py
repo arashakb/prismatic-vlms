@@ -28,6 +28,9 @@ QWEN25_MODELS = {
     "qwen25-1_5b-pure": {
         "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-1.5B"
     },
+    "qwen25-1_5b-extra": {
+        "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-1.5B"
+    },
     "qwen25-3b-pure": {
         "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-3B"
     },

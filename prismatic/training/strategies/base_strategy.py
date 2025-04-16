@@ -238,3 +238,18 @@ class TrainingStrategy(ABC):
             if self.max_steps is None:
                 self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
                 dist.barrier()
+            
+            # Save checkpoint at half of the max steps
+            if metrics.global_step == (self.max_steps / 2.0):
+                self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
+                dist.barrier()
+            
+            # Save checkpoint at 1/4 of the max steps
+            if metrics.global_step == (self.max_steps / 4.0):
+                self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
+                dist.barrier()
+
+            # Save checkpoint at 3/4 of the max steps
+            if metrics.global_step == (self.max_steps * 3.0 / 4.0):
+                self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
+                dist.barrier()

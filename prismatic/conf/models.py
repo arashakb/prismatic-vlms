@@ -507,11 +507,19 @@ class Prism_Qwen25_0_5B_DINOSigLIP_224px(Exp_7B_One_Stage):
 class Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_0_5B_DINOSigLIP_224px):
     model_id: str = "prism-qwen25-extra-dinosiglip-224px+0_5b"
     llm_backbone_id: str = "qwen25-0_5b-extra"
-    align_global_batch_size: int = 16
+    align_global_batch_size: int = 32
     align_per_device_batch_size: int = 8
-    finetune_global_batch_size: int = 16
+    finetune_global_batch_size: int = 32
     finetune_per_device_batch_size: int = 8
 
+# @dataclass
+# class Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_1_5B_DINOSigLIP_224px):
+#     model_id: str = "prism-qwen25-extra-dinosiglip-224px+1_5b"
+#     llm_backbone_id: str = "qwen25-1_5b-extra"
+#     align_global_batch_size: int = 8
+#     align_per_device_batch_size: int = 8
+#     finetune_global_batch_size: int = 4
+#     finetune_per_device_batch_size: int = 4
 
 # === Define a Model Registry Enum for Reference & Validation ===
 @unique
@@ -593,6 +601,7 @@ class ModelRegistry(Enum):
     # Qwen
     PRISM_QWEN25_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_DINOSigLIP_224px
     PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px
+    # PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_1_5B = Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px
 
     @property
     def model_id(self) -> str:

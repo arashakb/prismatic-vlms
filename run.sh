@@ -22,10 +22,10 @@ export WANDB_CACHE_DIR="/home/user1/.cache/wandb_arash"
 # GPU Configuration
 # Specify which GPUs to use (comma-separated list, e.g., "0,1,2,3" for first 4 GPUs)
 # Leave empty to use all available GPUs
-export CUDA_VISIBLE_DEVICES="2,3"  # Modify this line to select specific GPUs
+export CUDA_VISIBLE_DEVICES="2,3,4,5"  # Modify this line to select specific GPUs
 
 # Number of GPUs to use (should match the number of GPUs in CUDA_VISIBLE_DEVICES)
-NUM_GPUS=2  # Modify this to match the number of GPUs you want to use
+NUM_GPUS=4  # Modify this to match the number of GPUs you want to use
 
 # Run the training command and redirect all output to the log file
 echo "Starting training at $(date)" | tee -a "$LOG_FILE"
