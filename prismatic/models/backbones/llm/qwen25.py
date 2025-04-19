@@ -51,7 +51,7 @@ class Qwen25LLMBackbone(HFCausalLLMBackbone):
         inference_mode: bool = False,
         use_flash_attention_2: bool = True,
         num_extra_tokens: int = 0,
-        enable_peft = True,
+        enable_peft = False,
         lora_peft_config = LoraConfig(
             r=128, 
             lora_alpha=256, 

@@ -50,6 +50,7 @@ class TrainingStrategy(ABC):
         #Changed this from bfloat16 to fp16
         mixed_precision_dtype: torch.dtype = torch.bfloat16,
         worker_init_fn: Optional[Callable[[int], None]] = None,
+        save_checkpoint_steps: Optional[int] = None,
         **_: str,
     ) -> None:
         self.vlm, self.device_id = vlm, device_id
@@ -70,6 +71,9 @@ class TrainingStrategy(ABC):
         self.enable_mixed_precision_training = enable_mixed_precision_training
         self.reduce_in_full_precision = reduce_in_full_precision
         self.mixed_precision_dtype = mixed_precision_dtype
+        
+        # Checkpoint Parameters
+        self.save_checkpoint_steps = save_checkpoint_steps
 
         # DataLoader Parameters
         self.worker_init_fn = worker_init_fn
@@ -223,6 +227,13 @@ class TrainingStrategy(ABC):
                         metrics.commit(global_step=metrics.global_step + 1, lr=self.lr_scheduler.get_last_lr()[0])
                         status = metrics.push()
 
+                        # Save checkpoint at regular intervals if save_checkpoint_steps is specified
+                        if (self.save_checkpoint_steps is not None and 
+                            metrics.global_step > 0 and 
+                            metrics.global_step % self.save_checkpoint_steps == 0):
+                            self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
+                            dist.barrier()
+
                         # Check for Termination & Save Final Checkpoint (in case `max_steps` is not None)
                         if self.max_steps is not None and metrics.global_step >= self.max_steps:
                             self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
@@ -239,17 +250,18 @@ class TrainingStrategy(ABC):
                 self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
                 dist.barrier()
             
-            # Save checkpoint at half of the max steps
-            if metrics.global_step == (self.max_steps / 2.0):
+            # Keep the existing checkpoint schedules at 1/4, 1/2, and 3/4 as a fallback
+            # Save checkpoint at half of the max steps (only if max_steps is specified)
+            if self.max_steps is not None and metrics.global_step == int(self.max_steps / 2.0):
                 self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
                 dist.barrier()
             
-            # Save checkpoint at 1/4 of the max steps
-            if metrics.global_step == (self.max_steps / 4.0):
+            # Save checkpoint at 1/4 of the max steps (only if max_steps is specified)
+            if self.max_steps is not None and metrics.global_step == int(self.max_steps / 4.0):
                 self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
                 dist.barrier()
 
             # Save checkpoint at 3/4 of the max steps
-            if metrics.global_step == (self.max_steps * 3.0 / 4.0):
+            if self.max_steps is not None and metrics.global_step == int(self.max_steps * 3.0 / 4.0):
                 self.save_checkpoint(metrics.run_dir, metrics.global_step, epoch, loss.item())
                 dist.barrier()
