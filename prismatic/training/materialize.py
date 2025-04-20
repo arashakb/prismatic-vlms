@@ -10,13 +10,13 @@ from typing import Callable, Optional
 import torch
 
 from prismatic.models.vlms import PrismaticVLM
-from prismatic.training.strategies import DDPStrategy, FSDPStrategy, TrainingStrategy
+from prismatic.training.strategies import FSDPStrategy, TrainingStrategy
 
-# Registry =>> Maps ID --> {cls(), kwargs} :: supports FSDP and DDP strategies
+# Registry =>> Maps ID --> {cls(), kwargs} :: supports FSDP for now, but DDP handler is also implemented!
 TRAIN_STRATEGIES = {
     "fsdp-shard-grad-op": {"cls": FSDPStrategy, "kwargs": {"sharding_strategy": "shard-grad-op"}},
     "fsdp-full-shard": {"cls": FSDPStrategy, "kwargs": {"sharding_strategy": "full-shard"}},
-    "ddp": {"cls": DDPStrategy, "kwargs": {}}
+    "ddp": {}
 }
 
 
@@ -38,7 +38,6 @@ def get_train_strategy(
     reduce_in_full_precision: bool = False,
     mixed_precision_dtype: torch.dtype = torch.bfloat16,
     worker_init_fn: Optional[Callable[[int], None]] = None,
-    save_checkpoint_steps: Optional[int] = None,
 ) -> TrainingStrategy:
     if train_strategy in TRAIN_STRATEGIES:
         strategy_cfg = TRAIN_STRATEGIES[train_strategy]
@@ -59,7 +58,6 @@ def get_train_strategy(
             reduce_in_full_precision=reduce_in_full_precision,
             mixed_precision_dtype=mixed_precision_dtype,
             worker_init_fn=worker_init_fn,
-            save_checkpoint_steps=save_checkpoint_steps,
             **strategy_cfg["kwargs"],
         )
         return strategy

@@ -30,17 +30,16 @@ NUM_GPUS=4  # Modify this to match the number of GPUs you want to use
 # Run the training command and redirect all output to the log file
 echo "Starting training at $(date)" | tee -a "$LOG_FILE"
 echo "Using GPUs: $CUDA_VISIBLE_DEVICES" | tee -a "$LOG_FILE"
-echo "Command: torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py --model.type \"PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B_DDP\" --wandb_project \"testing_vlm_training\" --wandb_entity \"arash-akbari-stu-northeastern-university\"" | tee -a "$LOG_FILE"
+echo "Command: torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py --model.type \"prism-qwen25-extra-dinosiglip-224px+0_5b\" --wandb_project \"testing_vlm_training\" --wandb_entity \"arash-akbari-stu-northeastern-university\"" | tee -a "$LOG_FILE"
 
 # Run the command and redirect both stdout and stderr to the log file
 torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py \
-  --model.type "PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B_DDP" \
+  --model.type "prism-qwen25-extra-dinosiglip-224px+0_5b" \
   --wandb_project "testing_vlm_training" \
   --wandb_entity "arash-akbari-stu-northeastern-university" \
   --model.enable_gradient_checkpointing True \
   --model.enable_mixed_precision_training True \
-  --model.reduce_in_full_precision True \
-  --save_checkpoint_steps 1000 2>&1 | tee -a "$LOG_FILE"
+  --model.reduce_in_full_precision True 2>&1 | tee -a "$LOG_FILE"
 
 # Check the exit status
 if [ $? -eq 0 ]; then

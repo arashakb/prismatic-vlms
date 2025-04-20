@@ -146,7 +146,7 @@ class PrismaticVLM(VLM):
 
         elif stage == "finetune":
             self.vision_backbone.requires_grad_(False)
-            self.llm_backbone.requires_grad_(True)
+            # self.llm_backbone.requires_grad_(True)
             self.projector.requires_grad_(True)
 
             # Add to `self.trainable_module_keys`

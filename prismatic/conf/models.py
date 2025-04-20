@@ -509,62 +509,17 @@ class Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_0_5B_DINOSigLIP_224p
     llm_backbone_id: str = "qwen25-0_5b-extra"
     align_global_batch_size: int = 32
     align_per_device_batch_size: int = 8
-    finetune_global_batch_size: int = 24
-    finetune_per_device_batch_size: int = 6
-
-@dataclass
-class Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px_DDP(Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px):
-    model_id: str = "prism-qwen25-extra-dinosiglip-224px-ddp+0_5b"
-    
-    # Use DDP training strategy instead of FSDP
-    align_train_strategy: str = "ddp"
-    finetune_train_strategy: str = "ddp"
-    
-    # DDP doesn't support weight decay > 0
-    align_weight_decay: float = 0.0
-    finetune_weight_decay: float = 0.0
-
-# === Small Model with DDP Training Strategy ===
-@dataclass
-class Prism_DDP_Small_Model(ModelConfig):
-    model_id: str = "prism-small-ddp"
-    arch_specifier: str = "no-align+fused-gelu-mlp"
-
-    vision_backbone_id: str = "dinosiglip-vit-so-224px"
-    llm_backbone_id: str = "llama2-7b-pure"  # Change this to your smaller model if needed
-
-    image_resize_strategy: str = "resize-naive"
-    llm_max_length: int = 2048
-
-    # Align Stage Optimization Parameters
-    align_epochs: int = 1
-    align_max_steps: Optional[int] = None
-    align_global_batch_size: int = 8
-    align_per_device_batch_size: int = 8
-
-    align_learning_rate: float = 1e-3
-    align_weight_decay: float = 0.0
-    align_max_grad_norm: float = 1.0
-    align_lr_scheduler_type: str = "linear-warmup+cosine-decay"
-    align_warmup_ratio: float = 0.03
-
-    # Using DDP for align stage
-    align_train_strategy: str = "ddp"
-
-    # Finetune Stage Optimization Parameters
-    finetune_epochs: int = 1
-    finetune_max_steps: Optional[int] = None
-    finetune_global_batch_size: int = 8
+    finetune_global_batch_size: int = 32
     finetune_per_device_batch_size: int = 8
 
-    finetune_learning_rate: float = 2e-5
-    finetune_weight_decay: float = 0.0  # DDP doesn't support weight decay > 0
-    finetune_max_grad_norm: float = 1.0
-    finetune_lr_scheduler_type: str = "linear-warmup+cosine-decay"
-    finetune_warmup_ratio: float = 0.03
-
-    # Using DDP for finetune stage
-    finetune_train_strategy: str = "ddp"
+# @dataclass
+# class Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_1_5B_DINOSigLIP_224px):
+#     model_id: str = "prism-qwen25-extra-dinosiglip-224px+1_5b"
+#     llm_backbone_id: str = "qwen25-1_5b-extra"
+#     align_global_batch_size: int = 8
+#     align_per_device_batch_size: int = 8
+#     finetune_global_batch_size: int = 4
+#     finetune_per_device_batch_size: int = 4
 
 # === Define a Model Registry Enum for Reference & Validation ===
 @unique
@@ -614,7 +569,6 @@ class ModelRegistry(Enum):
     EXP_LLAMA2_NO_COTRAINING_7B = Exp_7B_Llama2_No_Cotraining
 
     # === Section 4.4 :: Scaling Properties - Train Time & Data ===
-
     EXP_1P25_EPOCHS = Exp_7B_1p25_Epochs
     EXP_1P5_EPOCHS = Exp_7B_1p5_Epochs
     EXP_2_EPOCHS = Exp_7B_2_Epochs
@@ -647,10 +601,7 @@ class ModelRegistry(Enum):
     # Qwen
     PRISM_QWEN25_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_DINOSigLIP_224px
     PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px
-    
-    # DDP training models
-    PRISM_SMALL_DDP = Prism_DDP_Small_Model
-    PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B_DDP = Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px_DDP
+    # PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_1_5B = Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px
 
     @property
     def model_id(self) -> str:
