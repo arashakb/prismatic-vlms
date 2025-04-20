@@ -509,8 +509,8 @@ class Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_0_5B_DINOSigLIP_224p
     llm_backbone_id: str = "qwen25-0_5b-extra"
     align_global_batch_size: int = 32
     align_per_device_batch_size: int = 8
-    finetune_global_batch_size: int = 32
-    finetune_per_device_batch_size: int = 8
+    finetune_global_batch_size: int = 8
+    finetune_per_device_batch_size: int = 4
 
 # @dataclass
 # class Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_1_5B_DINOSigLIP_224px):
