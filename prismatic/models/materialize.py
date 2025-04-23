@@ -76,6 +76,7 @@ LLM_BACKBONES = {
     "qwen25-0_5b-pure": {"cls": Qwen25LLMBackbone, "kwargs": {}},
     "qwen25-0_5b-extra": {"cls": Qwen25LLMBackbone, "kwargs": {"num_extra_tokens": 256}},
     "qwen25-1_5b-pure": {"cls": Qwen25LLMBackbone, "kwargs": {}},
+    "qwen25-1_5b-extra": {"cls": Qwen25LLMBackbone, "kwargs": {"num_extra_tokens": 256}},
     "qwen25-3b-pure": {"cls": Qwen25LLMBackbone, "kwargs": {}},
     "qwen25-3b-extra": {"cls": Qwen25LLMBackbone, "kwargs": {"num_extra_tokens": 256}},
 }

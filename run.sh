@@ -8,7 +8,7 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 LOG_FILE="logs/training_${TIMESTAMP}.log"
 
 # Set distributed training environment variables
-export WORLD_SIZE=1
+# export WORLD_SIZE=1
 # export RANK=0
 # export LOCAL_RANK=0
 export NCCL_P2P_DISABLE=1
@@ -22,21 +22,22 @@ export WANDB_CACHE_DIR="/home/user1/.cache/wandb_arash"
 # GPU Configuration
 # Specify which GPUs to use (comma-separated list, e.g., "0,1,2,3" for first 4 GPUs)
 # Leave empty to use all available GPUs
-export CUDA_VISIBLE_DEVICES="2,3"  # Modify this line to select specific GPUs
+export CUDA_VISIBLE_DEVICES="4,5,6,7"  # Modify this line to select specific GPUs
 
 # Number of GPUs to use (should match the number of GPUs in CUDA_VISIBLE_DEVICES)
-NUM_GPUS=2  # Modify this to match the number of GPUs you want to use
+NUM_GPUS=4  # Modify this to match the number of GPUs you want to use
 
 # Run the training command and redirect all output to the log file
 echo "Starting training at $(date)" | tee -a "$LOG_FILE"
 echo "Using GPUs: $CUDA_VISIBLE_DEVICES" | tee -a "$LOG_FILE"
-echo "Command: torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py --model.type \"prism-qwen25-extra-dinosiglip-224px+0_5b\" --wandb_project \"testing_vlm_training\" --wandb_entity \"arash-akbari-stu-northeastern-university\"" | tee -a "$LOG_FILE"
+echo "Command: torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py --model.type \"prism-qwen25-extra-dinosiglip-224px+1_5b\" --wandb_project \"testing_vlm_training\" --wandb_entity \"arash-akbari-stu-northeastern-university\"" | tee -a "$LOG_FILE"
 
 # Run the command and redirect both stdout and stderr to the log file
 torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py \
-  --model.type "prism-qwen25-extra-dinosiglip-224px+0_5b" \
-  --wandb_project "testing_vlm_training" \
-  --wandb_entity "arash-akbari-stu-northeastern-university" 2>&1 | tee -a "$LOG_FILE"
+  --model.type "prism-qwen25-extra-dinosiglip-224px+1_5b" \
+  --wandb_project "Qwen25-Extra-DINOSigLIP-224px-1_5B-full-finetune" \
+  --wandb_entity "arash-akbari-stu-northeastern-university" \
+   --model.enable_mixed_precision_training True 2>&1 | tee -a "$LOG_FILE"
 
 # Check the exit status
 if [ $? -eq 0 ]; then

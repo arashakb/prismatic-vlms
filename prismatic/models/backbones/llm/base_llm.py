@@ -182,6 +182,7 @@ class HFCausalLLMBackbone(LLMBackbone, ABC):
             "qwen25-0_5b-pure",
             "qwen25-0_5b-extra",
             "qwen25-1_5b-pure",
+            "qwen25-1_5b-extra",
             "qwen25-3b-pure",
             "qwen25-7b-pure",
         }
