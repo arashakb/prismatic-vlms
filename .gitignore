@@ -9,6 +9,7 @@ __pycache__/
 # Folders
 /runs
 
+hf_token.txt
 
 # Distribution / packaging
 .Python
