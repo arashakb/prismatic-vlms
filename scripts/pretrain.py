@@ -78,8 +78,8 @@ class PretrainConfig:
     trackers: Tuple[str, ...] = ("jsonl", "wandb")                  # Trackers to initialize (if W&B, add config!)
     # wandb_project: str = "prismatic"                                # Name of W&B project (default: `prismatic`)
     # wandb_entity: Optional[str] = None                              # Name of W&B entity (default: None)
-    wandb_project: str = "onyx-vlms"
-    wandb_entity: str = "stanford-voltron"
+    wandb_project: str = "Moxin-VLM"
+    wandb_entity: str = "arash-akbari-northeastern-university"
 
     def __post_init__(self) -> None:
         """Set optimization parameters based on `stage` in {"align", "finetune"}."""

@@ -105,8 +105,8 @@ class LLaVa_v15_Reproduction_7B(ModelConfig):
     # Finetune Stage Optimization Parameters
     finetune_epochs: int = 1
     finetune_max_steps: Optional[int] = None
-    finetune_global_batch_size: int = 8
-    finetune_per_device_batch_size: int = 8
+    finetune_global_batch_size: int = 128
+    finetune_per_device_batch_size: int = 16
 
     finetune_learning_rate: float = 2e-5
     finetune_weight_decay: float = 0.1
@@ -285,6 +285,12 @@ class Ext_Exp_7B_Mistral_V1(Exp_7B_One_Stage):
 class Ext_Exp_7B_Mistral_Instruct_V1(Exp_7B_One_Stage):
     model_id: str = "mistral-instruct-v0.1+7b"
     llm_backbone_id: str = "mistral-v0.1-7b-instruct"
+
+
+@dataclass
+class Ext_Exp_7B_Moxin(Exp_7B_One_Stage):
+    model_id: str = "moxin+7b"
+    llm_backbone_id: str = "moxin-7b-pure"
 
 
 @dataclass
@@ -491,6 +497,17 @@ class Prism_7B_DINOSigLIP_224px(Exp_7B_One_Stage):
     arch_specifier: str = "no-align+fused-gelu-mlp"
     finetune_epochs: int = 2
 
+
+# Added the new Moxin LLM Backbone here
+@dataclass
+class Prism_Moxin_7B_DINOSigLIP_224px(Exp_7B_One_Stage):
+    model_id: str = "prism-moxin-dinosiglip-224px+7b"
+    vision_backbone_id: str = "dinosiglip-vit-so-224px"
+    image_resize_strategy: str = "resize-naive"
+    llm_backbone_id: str = "moxin-7b-pure"
+    arch_specifier: str = "no-align+fused-gelu-mlp"
+    finetune_epochs: int = 2
+
 #   =>> Note :: Run with `--dataset.type "llava-lvis4v-lrv"`
 @dataclass
 class Prism_Qwen25_0_5B_DINOSigLIP_224px(Exp_7B_One_Stage):
@@ -572,6 +589,7 @@ class ModelRegistry(Enum):
     EXT_EXP_LLAMA2_CHAT_13B = Ext_Exp_13B_Llama2_Chat
     EXT_EXP_MISTRAL_V1_7B = Ext_Exp_7B_Mistral_V1
     EXT_EXP_MISTRAL_INSTRUCT_V1_7B = Ext_Exp_7B_Mistral_Instruct_V1
+    EXT_EXP_MOXIN_7B = Ext_Exp_7B_Moxin
     EXT_EXP_PHI_2_3B = Ext_Exp_3B_Phi_2
 
     # Cotraining w/ Unimodal Data
@@ -613,6 +631,9 @@ class ModelRegistry(Enum):
     PRISM_QWEN25_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_DINOSigLIP_224px
     PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px
     PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_1_5B = Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px
+
+    # Moxin
+    PRISM_MOXIN_DINOSIGLIP_224PX_7B = Prism_Moxin_7B_DINOSigLIP_224px
 
     @property
     def model_id(self) -> str:

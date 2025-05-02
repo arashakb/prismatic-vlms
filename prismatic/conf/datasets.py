@@ -15,7 +15,12 @@ from pathlib import Path
 from typing import Tuple
 
 from draccus import ChoiceRegistry
+import draccus
 
+# Register path handler for draccus
+@draccus.encode.register(Path)
+def encode_path(path: Path) -> str:
+    return str(path)
 
 @dataclass
 class DatasetConfig(ChoiceRegistry):

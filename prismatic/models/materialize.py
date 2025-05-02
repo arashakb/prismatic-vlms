@@ -9,7 +9,7 @@ from typing import Optional, Tuple
 
 from transformers import PreTrainedTokenizerBase
 
-from prismatic.models.backbones.llm import LLaMa2LLMBackbone, LLMBackbone, MistralLLMBackbone, PhiLLMBackbone
+from prismatic.models.backbones.llm import LLaMa2LLMBackbone, LLMBackbone, MistralLLMBackbone, PhiLLMBackbone, MoxinLLMBackbone
 from prismatic.models.backbones.llm.qwen25 import Qwen25LLMBackbone
 from prismatic.models.backbones.vision import (
     CLIPViTBackbone,
@@ -68,6 +68,9 @@ LLM_BACKBONES = {
     # === Mistral v0.1 Backbones ===
     "mistral-v0.1-7b-pure": {"cls": MistralLLMBackbone, "kwargs": {}},
     "mistral-v0.1-7b-instruct": {"cls": MistralLLMBackbone, "kwargs": {}},
+
+    # === Moxin Backbones ===
+    "moxin-7b-pure": {"cls": MoxinLLMBackbone, "kwargs": {}},
 
     # === Phi-2 Backbone ===
     "phi-2-3b": {"cls": PhiLLMBackbone, "kwargs": {}},
