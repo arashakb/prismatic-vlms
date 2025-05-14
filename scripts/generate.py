@@ -120,6 +120,7 @@ def generate(cfg: GenerateConfig) -> None:
                         temperature=cfg.temperature,
                         max_new_tokens=cfg.max_new_tokens,
                         min_length=cfg.min_length,
+                        use_cache=False
                     )
                     prompt_builder.add_turn(role="gpt", message=generated_text)
                     print(f"\t|=>> VLM Response >>> {generated_text}\n")

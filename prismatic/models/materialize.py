@@ -11,6 +11,7 @@ from transformers import PreTrainedTokenizerBase
 
 from prismatic.models.backbones.llm import LLaMa2LLMBackbone, LLMBackbone, MistralLLMBackbone, PhiLLMBackbone, MoxinLLMBackbone
 from prismatic.models.backbones.llm.qwen25 import Qwen25LLMBackbone
+from prismatic.models.backbones.llm.qwen3 import Qwen3LLMBackbone
 from prismatic.models.backbones.vision import (
     CLIPViTBackbone,
     DinoCLIPViTBackbone,
@@ -82,6 +83,9 @@ LLM_BACKBONES = {
     "qwen25-1_5b-extra": {"cls": Qwen25LLMBackbone, "kwargs": {"num_extra_tokens": 256}},
     "qwen25-3b-pure": {"cls": Qwen25LLMBackbone, "kwargs": {}},
     "qwen25-3b-extra": {"cls": Qwen25LLMBackbone, "kwargs": {"num_extra_tokens": 256}},
+    
+    "qwen3-0_6b-pure": {"cls": Qwen3LLMBackbone, "kwargs": {}},
+    "qwen3-0_6b-extra": {"cls": Qwen3LLMBackbone, "kwargs": {"num_extra_tokens": 256}},
 }
 
 # fmt: on

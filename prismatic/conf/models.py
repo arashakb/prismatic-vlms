@@ -549,6 +549,16 @@ class Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px(Prism_Qwen25_1_5B_DINOSigLIP_224p
     finetune_global_batch_size: int = 24
     finetune_per_device_batch_size: int = 6
 
+@dataclass
+class Prism_Qwen3_0_6B_Extra_DINOSigLIP_224px(Prism_Qwen25_1_5B_DINOSigLIP_224px):
+    model_id: str = "prism-qwen3-extra-dinosiglip-224px+0_6b"
+    llm_backbone_id: str = "qwen3-0_6b-extra"
+    align_global_batch_size: int = 8
+    align_per_device_batch_size: int = 8
+    finetune_global_batch_size: int = 48
+    finetune_per_device_batch_size: int = 6
+    finetune_epochs: int = 2
+
 # === Define a Model Registry Enum for Reference & Validation ===
 @unique
 class ModelRegistry(Enum):
@@ -631,6 +641,8 @@ class ModelRegistry(Enum):
     PRISM_QWEN25_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_DINOSigLIP_224px
     PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_0_5B = Prism_Qwen25_0_5B_Extra_DINOSigLIP_224px
     PRISM_QWEN25_EXTRA_DINOSIGLIP_224PX_1_5B = Prism_Qwen25_1_5B_Extra_DINOSigLIP_224px
+
+    PRISM_QWEN3_EXTRA_DINOSIGLIP_224PX_0_6B = Prism_Qwen3_0_6B_Extra_DINOSigLIP_224px
 
     # Moxin
     PRISM_MOXIN_DINOSIGLIP_224PX_7B = Prism_Moxin_7B_DINOSigLIP_224px

@@ -22,22 +22,21 @@ export WANDB_CACHE_DIR="/home/user1/.cache/wandb_arash"
 # GPU Configuration
 # Specify which GPUs to use (comma-separated list, e.g., "0,1,2,3" for first 4 GPUs)
 # Leave empty to use all available GPUs
-export CUDA_VISIBLE_DEVICES="0"  # Modify this line to select specific GPUs
+export CUDA_VISIBLE_DEVICES="0,1,2,3,4,5,6,7"  # Modify this line to select specific GPUs
 
 # Number of GPUs to use (should match the number of GPUs in CUDA_VISIBLE_DEVICES)
-NUM_GPUS=1  # Modify this to match the number of GPUs you want to use
+NUM_GPUS=8  # Modify this to match the number of GPUs you want to use
 
 # Run the training command and redirect all output to the log file
 echo "Starting training at $(date)" | tee -a "$LOG_FILE"
 echo "Using GPUs: $CUDA_VISIBLE_DEVICES" | tee -a "$LOG_FILE"
-echo "Command: torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py --model.type \"prism-moxin-dinosiglip-224px+7b\" --wandb_project \"moxin-vlm\" --wandb_entity \"arash-akbari-stu-northeastern-university\"" | tee -a "$LOG_FILE"
+# echo "Command: torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py --model.type \"prism-moxin-dinosiglip-224px+7b\" --wandb_project \"moxin-vlm\" --wandb_entity \"arash-akbari-stu-northeastern-university\"" | tee -a "$LOG_FILE"
 
 # Run the command and redirect both stdout and stderr to the log file
 torchrun --standalone --nnodes 1 --nproc-per-node $NUM_GPUS scripts/pretrain.py \
-	  --model.type "prism-moxin-dinosiglip-224px+7b" \
-	    --wandb_project "Moxin-VLM" \
-	      --wandb_entity "arash-akbari-stu-northeastern-university" \
-	         --model.enable_mixed_precision_training True 2>&1 | tee -a "$LOG_FILE"
+	  --model.type "prism-qwen3-extra-dinosiglip-224px+0_6b" \
+	    --wandb_project "Qwen3-0.6B-VLM-Training" \
+	      --wandb_entity "arash-akbari-stu-northeastern-university"  2>&1 | tee -a "$LOG_FILE"
 
 # Check the exit status
 if [ $? -eq 0 ]; then

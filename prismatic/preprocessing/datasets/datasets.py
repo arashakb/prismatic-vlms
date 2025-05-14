@@ -139,8 +139,10 @@ class FinetuneDataset(Dataset[Dict[str, torch.Tensor]]):
         # Create Prompt Builder --> add each message sequentially
         prompt_builder, input_ids, labels = self.prompt_builder_fn(model_family="prismatic"), [], []
         for turn_idx, turn in enumerate(conversation):
+            # Map 'gpt' role to 'assistant' for compatibility with prompt builders
+            role = "assistant" if turn["from"] == "gpt" else turn["from"]
             # Get "effective" string added to prompt --> handle whitespace for tokenizer type!
-            msg = prompt_builder.add_turn(turn["from"], turn["value"])
+            msg = prompt_builder.add_turn(role, turn["value"])
 
             # Llama Tokenizer (Fast) adds extra character if a string ends in whitespace --> strip if non-empty!
             if isinstance(self.tokenizer, LlamaTokenizerFast):
@@ -152,7 +154,7 @@ class FinetuneDataset(Dataset[Dict[str, torch.Tensor]]):
 
             # Qwen2 Tokenizer -- agent turn requires EOS if its the last turn!
             elif isinstance(self.tokenizer, Qwen2TokenizerFast):
-                if turn["from"] == "gpt" and turn_idx == len(conversation) - 1:
+                if role == "gpt" and turn_idx == len(conversation) - 1:
                     msg += prompt_builder.eos
             else:
                 raise ValueError(f"Tokenizer of type `{type(self.tokenizer)}` is not explicitly handled!")

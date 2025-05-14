@@ -185,6 +185,8 @@ class HFCausalLLMBackbone(LLMBackbone, ABC):
             "qwen25-1_5b-extra",
             "qwen25-3b-pure",
             "qwen25-7b-pure",
+            "qwen3-0_6b-pure",
+            "qwen3-0_6b-extra"
         }
         if self.identifier in SPECIAL_CASES:
             return
