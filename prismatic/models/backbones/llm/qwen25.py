@@ -19,10 +19,10 @@ from peft import LoraConfig
 # fmt: off
 QWEN25_MODELS = {
     # === Pure Qwen2.5 (non-instruct/chat-tuned) Models ===
-    "qwen25-0_5b-extra": {
+    "qwen25-0_5b-pure": {
         "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-0.5B"
     },
-    "qwen25-0_5b-pure": {
+    "qwen25-0_5b-extra": {
         "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-0.5B"
     },
     "qwen25-1_5b-pure": {
@@ -34,16 +34,12 @@ QWEN25_MODELS = {
     "qwen25-3b-pure": {
         "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-3B"
     },
+    "qwen25-3b-extra": {
+        "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-3B"
+    },
     "qwen25-7b-pure": {
         "llm_family": "qwen2.5", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen2.5-7B"
     },
-    "qwen3-0_6b-pure": {
-        "llm_family": "qwen3", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen3-0.6B"
-    },
-    "qwen3-0_6b-extra": {
-        "llm_family": "qwen3", "llm_cls": AutoModelForCausalLM, "hf_hub_path": "Qwen/Qwen3-0.6B"
-    },
-
 }
 # fmt: on
 
