@@ -14,6 +14,7 @@ from transformers.models.llama.modeling_llama import LlamaDecoderLayer
 from prismatic.models.backbones.llm.base_llm import HFCausalLLMBackbone
 from prismatic.models.backbones.llm.prompting import (
     LLaMa2ChatPromptBuilder,
+    LLaMa3ChatPromptBuilder,
     PromptBuilder,
     PurePromptBuilder,
     VicunaV15ChatPromptBuilder,
@@ -38,6 +39,28 @@ LLAMA2_MODELS = {
 
     "llama2-13b-chat": {
         "llm_family": "llama2", "llm_cls": LlamaForCausalLM, "hf_hub_path": "meta-llama/Llama-2-13b-chat-hf"
+    },
+
+    # === Meta LLaMa-3.2 Models ===
+    "llama3.2-3b-pure": {
+        "llm_family": "llama3", "llm_cls": LlamaForCausalLM, "hf_hub_path": "meta-llama/Llama-3.2-3B"
+    },
+
+    # === Meta LLaMa-3 Models ===
+    "llama3-8b": {
+        "llm_family": "llama3", "llm_cls": LlamaForCausalLM, "hf_hub_path": "meta-llama/Llama-3-8B"
+    },
+
+    "llama3-8b-chat": {
+        "llm_family": "llama3", "llm_cls": LlamaForCausalLM, "hf_hub_path": "meta-llama/Llama-3-8B-chat"
+    },
+
+    "llama3-70b": {
+        "llm_family": "llama3", "llm_cls": LlamaForCausalLM, "hf_hub_path": "meta-llama/Llama-3-70B"
+    },
+
+    "llama3-70b-chat": {
+        "llm_family": "llama3", "llm_cls": LlamaForCausalLM, "hf_hub_path": "meta-llama/Llama-3-70B-chat"
     },
 
     # === Vicuna v1.5 Chat Models ===
@@ -82,6 +105,15 @@ class LLaMa2LLMBackbone(HFCausalLLMBackbone):
 
         elif self.identifier.startswith("llama2-") and self.identifier.endswith("-chat"):
             return LLaMa2ChatPromptBuilder
+
+        elif self.identifier.startswith("llama3.2-"):
+            return PurePromptBuilder
+
+        elif self.identifier.startswith("llama3-") and self.identifier.endswith("-chat"):
+            return LLaMa3ChatPromptBuilder
+
+        elif self.identifier.startswith("llama3-") and not self.identifier.endswith("-chat"):
+            return PurePromptBuilder
 
         elif self.identifier.startswith("vicuna"):
             return VicunaV15ChatPromptBuilder
